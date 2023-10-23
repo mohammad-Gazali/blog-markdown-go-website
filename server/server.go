@@ -1,15 +1,14 @@
-package application
+package server
 
 import (
-	"blog-markdown-website/router"
 	"fmt"
 	"net/http"
 )
 
-func RunServer(listenAddr string) error {
+func CreateAndRunServer(listenAddr string) error {
 	s := http.Server{
 		Addr:    listenAddr,
-		Handler: router.NewRouter(),
+		Handler: NewRouter(),
 	}
 
 	fmt.Printf("Starting HTTP Server at %v\n", listenAddr)

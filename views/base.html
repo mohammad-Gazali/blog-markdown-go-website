@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="shortcut icon" href="/static/favicon.ico" type="image/svg">
+        <link rel="stylesheet" href="/static/css/styles.css">
+        <script defer src="/static/js/flowbite.min.js"></script>
+        <script defer src="/static/js/main.js"></script>
+        <title>{{ .Title }}</title>
+    </head>
+    <body class="min-h-screen flex flex-col bg-white dark:bg-gray-900">
+        <header>{{ template "navbar.html" }}</header>
+        <main class="grow max-w-screen-xl w-full mx-auto px-4 mt-6">
+            {{ block "content" . }}{{ end }}
+        </main>
+        {{ template "footer.html" }}
+    </body>
+</html>

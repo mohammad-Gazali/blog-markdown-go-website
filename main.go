@@ -1,7 +1,7 @@
 package main
 
 import (
-	"blog-markdown-website/application"
+	"blog-markdown-website/server"
 	"flag"
 	"log"
 	"net"
@@ -16,7 +16,7 @@ func main() {
 
 	addr := net.JoinHostPort(*host, *port)
 
-	if err := application.RunServer(addr); err != nil {
+	if err := server.CreateAndRunServer(addr); err != nil {
 		log.Fatal(err)
 	}
 }

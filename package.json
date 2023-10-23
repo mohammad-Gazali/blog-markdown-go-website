@@ -1,10 +1,12 @@
 {
 	"scripts": {
-		"build": "tailwindcss -i ./static/input.css -o ./static/styles.css --minify"
+		"build": "tailwindcss -i ./static/css/input.css -o ./static/css/styles.css --minify",
+		"watch": "tailwindcss -i ./static/css/input.css -o ./static/css/styles.css --watch"
 	},
 	"devDependencies": {
-		"tailwindcss": "^3.3.3",
+		"autoprefixer": "^10.4.16",
+		"flowbite": "^1.8.1",
 		"postcss": "^8.4.31",
-		"autoprefixer": "^10.4.16"
+		"tailwindcss": "^3.3.3"
 	}
 }
