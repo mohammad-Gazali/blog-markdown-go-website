@@ -1,3 +1,7 @@
 {{ define "content" }}
-    <h1>Hello From Markdown Blog</h1>
+    <div class="flex flex-wrap gap-4">
+        {{ range .Articles }}
+            {{ template "card.html" . }}
+        {{ end }}
+    </div>
 {{ end }}

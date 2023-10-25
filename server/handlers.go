@@ -8,5 +8,8 @@ func AddingHandlers(mux *http.ServeMux) {
 
 // handlers
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	RenderTemplate(w, RenderContext{"Title": "Markdown Blog"}, "index.html")
+	RenderTemplate(w, RenderContext{
+		"Title": "Markdown Blog",
+		"Articles": GetAllMarkdownFiles(),
+	}, "index.html", "partials/card.html")
 }
