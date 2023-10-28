@@ -1,15 +1,36 @@
 package server
 
-import "net/http"
+import (
+	"net/http"
+	"strings"
+)
 
 func AddingHandlers(mux *http.ServeMux) {
-	HandleFuncWith404(mux, "/", HomeHandler)
+	mux.HandleFunc("/", HomeAndArticleHandler)
 }
 
 // handlers
-func HomeHandler(w http.ResponseWriter, r *http.Request) {
-	RenderTemplate(w, RenderContext{
-		"Title": "Markdown Blog",
-		"Articles": GetAllMarkdownFiles(),
-	}, "index.html", "partials/card.html")
+func HomeAndArticleHandler(w http.ResponseWriter, r *http.Request) {
+	if r.URL.Path == "/" {
+		RenderTemplate(w, RenderContext{
+			"Title": "Markdown Blog",
+			"Articles": GetAllMarkdownFiles(),
+		}, "index.html", "partials/card.html")
+	} else {
+		parts := strings.Split(r.URL.Path, "/")
+
+		slug := parts[len(parts) - 1]
+
+		article := GetMarkdownBySlug(slug)
+
+		if article == nil {
+			NotFoundError(w)
+			return
+		}
+
+		RenderTemplate(w, RenderContext{
+			"Title": article.Title,
+			"Article": article,
+		}, "article.html")
+	}
 }

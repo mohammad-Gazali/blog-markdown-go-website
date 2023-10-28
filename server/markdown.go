@@ -1,6 +1,7 @@
 package server
 
 import (
+	"html/template"
 	"os"
 	"strconv"
 	"strings"
@@ -18,7 +19,7 @@ type MarkdownFileInfo struct {
 	Slug        string
 	ImageUrl    string
 	CreatedAt   time.Time
-	Html        string
+	Html        template.HTML
 }
 
 func (mf MarkdownFile) Parse() *MarkdownFileInfo {
@@ -68,11 +69,45 @@ func (mf MarkdownFile) Parse() *MarkdownFileInfo {
 
 		if infoSepCount >= 2 {
 			startHtmlIndex = i + 1
+			break
 		}
 	}
 
-	// TODO: handle parsing html
-	result.Html = strings.Join(infoLines[startHtmlIndex:], "\n")
+	var htmlResult string
+	var isCodeBlock bool
+	var currentCodeBlockContent string
+
+	for _, line := range infoLines[startHtmlIndex:] {
+		if strings.Trim(line, " " + "\r" + "\t") == "```" {
+			if isCodeBlock {
+				currentCodeBlockContent += "</code>"
+				htmlResult += currentCodeBlockContent
+				currentCodeBlockContent = ""
+				continue
+				
+			} else {
+				currentCodeBlockContent += "<code>"
+			}
+			isCodeBlock = !isCodeBlock
+		}
+
+		if line == "" {
+			htmlResult += "<br />"
+		} else if isCodeBlock {
+			if strings.Trim(line, " " + "\r" + "\t") != "```" {
+				currentCodeBlockContent += MarkdownToHTML(line, true, false)
+			}
+		} else {
+			htmlResult += MarkdownToHTML(line, false, true)
+		}
+	}
+
+	// ending code tag if it is not ended in the markdown file
+	if currentCodeBlockContent != "" {
+		htmlResult += currentCodeBlockContent + "</code>"
+	}
+
+	result.Html = template.HTML(htmlResult)
 
 	return &result
 }

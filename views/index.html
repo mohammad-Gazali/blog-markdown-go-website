@@ -1,5 +1,5 @@
 {{ define "content" }}
-    <div class="flex flex-wrap gap-4">
+    <div class="grid lg:grid-cols-3 md:grid-cols-2 gap-4 mb-12">
         {{ range .Articles }}
             {{ template "card.html" . }}
         {{ end }}
