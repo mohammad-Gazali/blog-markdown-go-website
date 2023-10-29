@@ -91,9 +91,7 @@ func (mf MarkdownFile) Parse() *MarkdownFileInfo {
 			isCodeBlock = !isCodeBlock
 		}
 
-		if line == "" {
-			htmlResult += "<br />"
-		} else if isCodeBlock {
+		if isCodeBlock {
 			if strings.Trim(line, " " + "\r" + "\t") != "```" {
 				currentCodeBlockContent += MarkdownToHTML(line, true, false)
 			}
