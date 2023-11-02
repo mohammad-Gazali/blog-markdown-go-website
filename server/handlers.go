@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func AddingHandlers(mux *http.ServeMux) {
-	mux.HandleFunc("/", HomeAndArticleHandler)
+func AddingHandlers() {
+	http.HandleFunc("/", HomeAndArticleHandler)
 }
 
 // handlers

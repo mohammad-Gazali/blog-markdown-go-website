@@ -21,14 +21,14 @@ func RenderTemplate(w http.ResponseWriter, context any, files ...string) {
 	tmpl, err := template.ParseFiles(files...)
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		InternalServerError(w)
 		return
 	}
 
 	err = tmpl.ExecuteTemplate(w, "base.html", context)
 
 	if err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
+		InternalServerError(w)
 		return
 	}
 }
